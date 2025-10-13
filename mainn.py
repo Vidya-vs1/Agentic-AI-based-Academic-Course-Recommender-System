@@ -39,12 +39,14 @@ from crewai_tools import SerperDevTool, ScrapeWebsiteTool
 # Load env
 # -------------------------
 load_dotenv()
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+OPEN_API_KEY = os.getenv("OPEN_API_KEY")
 SERPER_API_KEY = os.getenv("SERPER_API_KEY")
+MODEL_NAME = os.getenv("OPENROUTER_MODEL")
+BASE_URL = os.getenv("OPENROUTER_BASE_URL")
 
 # Put API keys into env if some libs read them from os.environ
-if OPENROUTER_API_KEY:
-    os.environ["OPENROUTER_API_KEY"] = OPENROUTER_API_KEY
+if OPEN_API_KEY:
+    os.environ["OPEN_API_KEY"] = OPEN_API_KEY
 if SERPER_API_KEY:
     os.environ["SERPER_API_KEY"] = SERPER_API_KEY
 
@@ -252,10 +254,10 @@ serper_tool = SerperDevTool()
 scrape_tool = ScrapeWebsiteTool()
 
 llm = LLM(
-    model="openrouter/nvidia/nemotron-nano-9b-v2:free",
+    model=MODEL_NAME,
     temperature=0.0,
-    base_url="https://openrouter.ai/api/v1",
-    api_key=OPENROUTER_API_KEY,
+    base_url=BASE_URL,
+    api_key=OPEN_API_KEY,
 )
 
 # Advisor agent - note: agent's llm is used only for reasoning; we still control the conversation loop
@@ -492,8 +494,8 @@ crew = Crew(
 # -------------------------
 
 MANDATORY_FIELDS = ["student_name", "current_degree", "specialization", "graduation_year", "cgpa",
-                    "career_goal", "preferred_locations", "budget", "special_requirements", "other_info"]
-OPTIONAL_FIELDS = ["lor_text"]
+                    "career_goal", "preferred_locations", "budget" ]
+OPTIONAL_FIELDS = ["special_requirements", "other_info","lor_text"]
 
 SYSTEM_INSTRUCTION = build_system_instruction(MANDATORY_FIELDS, OPTIONAL_FIELDS)
 
@@ -638,3 +640,4 @@ if __name__ == "__main__":
     print("📋 FINAL RECOMMENDATION REPORT")
     print("=" * 60)
     print(result)
+

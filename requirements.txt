@@ -1,0 +1,17 @@
+streamlit
+crewai
+crewai-tools
+openai
+requests
+python-dotenv
+beautifulsoup4
+serpapi
+html5lib
+lxml
+pypdf
+pdfplumber
+pytesseract
+pdf2image
+Pillow
+regex
+tiktoken
